@@ -6,24 +6,24 @@ import (
 	"math/rand"
 )
 
-type ProductUsecase struct {
+type ProductUsecaseImpl struct {
 	Repo entities.ProductRepository
 }
 
-func (uc *ProductUsecase) GetAllProducts() []*entities.Product {
+func (uc *ProductUsecaseImpl) GetAllProducts() []*entities.Product {
 	products := uc.Repo.GetAllProducts()
 	return products
 }
 
-func NewProductUsecase(repo entities.ProductRepository) *ProductUsecase {
-	return &ProductUsecase{Repo: repo}
+func NewProductUsecase(repo entities.ProductRepository) *ProductUsecaseImpl {
+	return &ProductUsecaseImpl{Repo: repo}
 }
 
-func (uc *ProductUsecase) Create(p *entities.Product) error {
+func (uc *ProductUsecaseImpl) Create(p *entities.Product) error {
 	return uc.Repo.Save(p)
 }
 
-func (uc *ProductUsecase) GetProductWithStock(barcode string) (*entities.Product, int, error) {
+func (uc *ProductUsecaseImpl) GetProductWithStock(barcode string) (*entities.Product, int, error) {
 	productChan := make(chan *entities.Product)
 	stockChan := make(chan int)
 	errChan := make(chan error)

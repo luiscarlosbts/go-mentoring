@@ -8,10 +8,10 @@ import (
 )
 
 type ProductHandler struct {
-	Usecase *usecase.ProductUsecase
+	Usecase usecase.ProductUsecase
 }
 
-func NewProductHandler(r *gin.Engine, uc *usecase.ProductUsecase) {
+func NewProductHandler(r *gin.Engine, uc usecase.ProductUsecase) {
 	handler := &ProductHandler{Usecase: uc}
 	r.GET("/products/all", handler.GetAllProducts)
 	r.POST("/product", handler.CreateProduct)
@@ -24,7 +24,7 @@ func (h *ProductHandler) CreateProduct(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid JSON"})
 		return
 	}
-	h.Usecase.Repo.Save(&product)
+	h.Usecase.Create(&product)
 	c.JSON(http.StatusCreated, gin.H{"message": "product created", "body": product})
 }
 
